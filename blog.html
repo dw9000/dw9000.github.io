@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offcanvas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+
+    <style>
+        @media (max-width: 767.98px) {
+          .custom-toggler {
+            position: fixed !important;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1051;
+            border-radius: 50%;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+            background: rgba(30, 30, 40, 0.85);
+            padding: 8px;
+            border: 2px solid #222;
+            transition: background 0.3s, box-shadow 0.3s;
+          }
+          .custom-toggler:hover {
+            background: rgba(60, 60, 80, 0.95);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+          }
+          .custom-toggler .navbar-toggler-icon {
+            filter: invert(1) brightness(2);
+            width: 2.2rem;
+            height: 2.2rem;
+          }
+          .navbar-collapse {
+          position: fixed !important;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: auto;
+          background: rgba(20, 20, 30, 0.98);
+          border-radius: 20px 20px 0 0;
+          box-shadow: 0 -4px 24px rgba(0,0,0,0.45);
+          padding: 2rem 1rem 1.5rem 1rem;
+          min-height: 40vh;
+          max-height: 80vh;
+          overflow-y: auto;
+          z-index: 3000 !important;
+          /* Efecto slide */
+          transform: translateY(100%);
+          transition: transform 0.4s cubic-bezier(.4,2,.6,1), opacity 0.3s;
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          }
+                .navbar-collapse.show {
+          transform: translateY(0);
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+          }
+        
+          .navbar-nav .nav-link {
+            color: #fff !important;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+          }
+          .navbar-nav .nav-link.active {
+            color: #ffc107 !important;
+          }
+          nav.navbar {
+            display: none !important;
+          }
+        }
+
+        @media (max-width: 767.98px) {
+          .carousel-item img {
+            height: 180px;      /* Ajusta la altura a tu gusto */
+            object-fit: cover;  /* Recorta la imagen para que no se deforme */
+            width: 100%;
+          }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Botón hamburguesa SOLO visible en móviles -->
+    <button class="navbar-toggler custom-toggler d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">    
+      <span class="navbar-toggler-icon"><i class="bi bi-list" style="font-size: 2rem; color: rgb(44, 30, 14);"></i></span>
+    </button>
+
+    <!-- Menú colapsable SOLO visible en móviles -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="blog.html">Blog</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Navbar SOLO visible en escritorio/tablet -->
+    <nav class="navbar navbar-expand-sm bg-body-tertiary d-none d-md-block">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Demo <i class="bi bi-bootstrap-fill"></i></a>
+        <div class="collapse navbar-collapse show">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="blog.html">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+    
+        <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            Link with href
+          </a>
+        
+          <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Sidebar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+             
+           
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  A list item
+                  <span class="badge text-bg-primary rounded-pill">14</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  A second list item
+                  <span class="badge text-bg-primary rounded-pill">2</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  A third list item
+                  <span class="badge text-bg-primary rounded-pill">1</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A list item
+                    <span class="badge text-bg-primary rounded-pill">14</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A second list item
+                    <span class="badge text-bg-primary rounded-pill">2</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A third list item
+                    <span class="badge text-bg-primary rounded-pill">1</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A list item
+                    <span class="badge text-bg-primary rounded-pill">14</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A second list item
+                    <span class="badge text-bg-primary rounded-pill">2</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A third list item
+                    <span class="badge text-bg-primary rounded-pill">1</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A list item
+                    <span class="badge text-bg-primary rounded-pill">14</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A second list item
+                    <span class="badge text-bg-primary rounded-pill">2</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A third list item
+                    <span class="badge text-bg-primary rounded-pill">1</span>
+                  </li>
+              </ul>
+            </div>
+          </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container-fluid bg-dark p-5 text-center mt-5">
+        <div class="row">
+          <div class="col"><a href="#" class="text-decoration-none text-success"><i class="bi bi-telegram"></i> Telegram</a></div>
+          <div class="col"><a href="#" class="text-decoration-none text-success"><i class="bi bi-instagram"></i> Instagram</a></div>
+          <div class="col"><a href="#" class="text-decoration-none text-success"><i class="bi bi-facebook"></i> Facebook</a></div>
+          <div class="col"><a href="#" class="text-decoration-none text-success"><i class="bi bi-twitter"></i> Twitter</a></div>
+        </div>
+      </div>
+    </footer>    
+
+    <script>
+      document.addEventListener('click', function(event) {
+        var navbarCollapse = document.getElementById('navbarNav');
+        var isOpen = navbarCollapse.classList.contains('show');
+        var toggler = document.querySelector('.navbar-toggler');
+        // Si el menú está abierto y el clic NO fue dentro del menú ni en el botón
+        if (
+          isOpen &&
+          !navbarCollapse.contains(event.target) &&
+          !toggler.contains(event.target)
+        ) {
+          var bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarCollapse);
+          bsCollapse.hide();
+        }
+      });
+    </script>
+    <!-- Bootstrap JS --> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+</body>
+
+</html>
