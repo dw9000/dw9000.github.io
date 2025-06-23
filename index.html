@@ -3,84 +3,12 @@
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Bootstrap demo</title>
+      <title>Data DataExplora</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-      <style>
-        @media (max-width: 767.98px) {
-          .custom-toggler {
-            position: fixed !important;
-            bottom: 24px;
-            right: 24px;
-            z-index: 1051;
-            border-radius: 50%;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.35);
-            background: rgba(30, 30, 40, 0.85);
-            padding: 8px;
-            border: 2px solid #222;
-            transition: background 0.3s, box-shadow 0.3s;
-          }
-          .custom-toggler:hover {
-            background: rgba(60, 60, 80, 0.95);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-          }
-          .custom-toggler .navbar-toggler-icon {
-            filter: invert(1) brightness(2);
-            width: 2.2rem;
-            height: 2.2rem;
-          }
-          .navbar-collapse {
-          position: fixed !important;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          top: auto;
-          background: rgba(20, 20, 30, 0.98);
-          border-radius: 20px 20px 0 0;
-          box-shadow: 0 -4px 24px rgba(0,0,0,0.45);
-          padding: 2rem 1rem 1.5rem 1rem;
-          min-height: 40vh;
-          max-height: 80vh;
-          overflow-y: auto;
-          z-index: 3000 !important;
-          /* Efecto slide */
-          transform: translateY(100%);
-          transition: transform 0.4s cubic-bezier(.4,2,.6,1), opacity 0.3s;
-          opacity: 0;
-          visibility: hidden;
-          pointer-events: none;
-          }
-                .navbar-collapse.show {
-          transform: translateY(0);
-          opacity: 1;
-          visibility: visible;
-          pointer-events: auto;
-          }
-        
-          .navbar-nav .nav-link {
-            color: #fff !important;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-          }
-          .navbar-nav .nav-link.active {
-            color: #ffc107 !important;
-          }
-          nav.navbar {
-            display: none !important;
-          }
-        }
-
-        @media (max-width: 767.98px) {
-          .carousel-item img {
-            height: 180px;      /* Ajusta la altura a tu gusto */
-            object-fit: cover;  /* Recorta la imagen para que no se deforme */
-            width: 100%;
-          }
-        }
-      </style>
-
-      
+      <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" href="css/styles.css">
   </head>
 
   <body>
@@ -93,70 +21,58 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Bootstrap</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link" href="post.html">Post</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="blog.html">Blog</a>
+        </li>
+        <li class="nav-item text-center">
+        <button id="darkModeToggleMobile" class="btn btn-outline-light my-2" title="Modo oscuro/claro">
+          <i class="bi bi-moon"></i>
+        </button>
         </li>
       </ul>
     </div>
 
     <!-- Navbar SOLO visible en escritorio/tablet -->
-    <nav class="navbar navbar-expand-sm bg-body-tertiary d-none d-md-block">
+    <nav class="navbar navbar-expand-sm bg-body-tertiary d-none d-md-block navbar-bg-img">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Demo <i class="bi bi-bootstrap-fill"></i></a>
+        <div class="navbar-hero-text d-flex justify-content-center align-items-center">
+          <div class="navbar-hero-blur px-4 py-3 rounded-4">
+            <h1 class="display-4 mb-2 text-center">¡Bienvenido a DataExplora!</h1>
+            <p class="lead text-center mb-0">Explora datos, aprende y comparte conocimiento.</p>
+          </div>
+        </div>
+        <a class="navbar-brand" href="#">Demo <i class="bi bi-pie-chart-fill" style="font-size: 2rem; color: rgb(15, 15, 14);"></i></a>
         <div class="collapse navbar-collapse show">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Bootstrap</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="post.html">Post</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="blog.html">Blog</a>
+            </li>
+            <li class="nav-item">
+            <button id="darkModeToggle" class="btn btn-outline-light ms-2" title="Modo oscuro/claro">
+              <i class="bi bi-moon"></i>
+            </button>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-
-    <!-- Slider -->
-    <div id="carouselExampleIndicators" class="carousel slide">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active" style="max-height: 500px;">
-          <img src="img/slider-1.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item" style="max-height: 500px;">
-          <img src="img/slider-2.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item" style="max-height: 500px;">
-          <img src="img/slider-3.jpg" class="d-block w-100" alt="...">
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div> 
 
     <!-- Ejemplo de grid responsive -->
     <div class="container-fluid bg-primary py-5 text-white text-center">
@@ -167,6 +83,84 @@
         <div class="col-12 col-sm-6 col-md-4 col-lg-2"><i class="bi bi-braces" style="font-size: 2rem; color: rgb(44, 30, 14);"></i></div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-2"><i class="bi bi-chat-square-quote" style="font-size: 2rem; color: rgb(209, 26, 96);"></i></div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-2"><i class="bi bi-alarm" style="font-size: 2rem; color: rgb(66, 26, 209);"></i></div>
+      </div>
+    </div>
+
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('assets/img/home-bg.jpg')">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="site-heading">
+              <h1>Clean Blog</h1>
+              <span class="subheading">A Blog Theme by Start Bootstrap</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center text-decoration-none">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <!-- Post preview-->
+          <div class="post-preview">
+            <a href="post.html" class="text-decoration-none">
+              <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
+              <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
+            </a>
+            <p class="post-meta">
+              Posted by
+              <a href="#!">Start Bootstrap</a>
+              on September 24, 2023
+            </p>
+          </div>
+          <!-- Divider-->
+          <hr class="my-4" />
+          <!-- Post preview-->
+          <div class="post-preview">
+            <a href="post.html" class="text-decoration-none">
+              <h2 class="post-title">I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.</h2>
+            </a>
+            <p class="post-meta">
+              Posted by
+              <a href="#!">Start Bootstrap</a>
+              on September 18, 2023
+            </p>
+          </div>
+          <!-- Divider-->
+          <hr class="my-4" />
+          <!-- Post preview-->
+          <div class="post-preview">
+            <a href="post.html" class="text-decoration-none">
+              <h2 class="post-title">Science has not yet mastered prophecy</h2>
+              <h3 class="post-subtitle">We predict too much for the next year and yet far too little for the next ten.</h3>
+            </a>
+            <p class="post-meta">
+              Posted by
+              <a href="#!">Start Bootstrap</a>
+              on August 24, 2023
+            </p>
+          </div>
+          <!-- Divider-->
+          <hr class="my-4" />
+          <!-- Post preview-->
+          <div class="post-preview">
+            <a href="post.html" class="text-decoration-none">
+              <h2 class="post-title">Failure is not an option</h2>
+              <h3 class="post-subtitle">Many say exploration is part of our destiny, but it’s actually our duty to future generations.</h3>
+            </a>
+            <p class="post-meta">
+              Posted by
+              <a href="#!">Start Bootstrap</a>
+              on July 8, 2023
+            </p>
+          </div>
+          <!-- Divider-->
+          <hr class="my-4" />
+          <!-- Pager-->
+          <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+        </div>
       </div>
     </div>
 
@@ -256,17 +250,6 @@
     </div>
 
     <!-- Footer -->
-    <footer>
-      <div class="container-fluid bg-dark p-5 text-center mt-5">
-        <div class="row">
-          <div class="col"><a href="#" class="text-decoration-none text-success"><i class="bi bi-telegram"></i> Telegram</a></div>
-          <div class="col"><a href="#" class="text-decoration-none text-success"><i class="bi bi-instagram"></i> Instagram</a></div>
-          <div class="col"><a href="#" class="text-decoration-none text-success"><i class="bi bi-facebook"></i> Facebook</a></div>
-          <div class="col"><a href="#" class="text-decoration-none text-success"><i class="bi bi-twitter"></i> Twitter</a></div>
-        </div>
-      </div>
-    </footer>
-
     <footer class="bg-dark text-white text-center py-3 mt-5">
       <p>&copy; 2025 Hernandez. All rights reserved.</p>
       <p>Follow us on 
@@ -276,24 +259,6 @@
         <a href="https://t.me/DataExplora" class="text-white"><i class="bi bi-telegram"></i></a>
     </footer>
 
-
-    <script>
-      document.addEventListener('click', function(event) {
-        var navbarCollapse = document.getElementById('navbarNav');
-        var isOpen = navbarCollapse.classList.contains('show');
-        var toggler = document.querySelector('.navbar-toggler');
-        // Si el menú está abierto y el clic NO fue dentro del menú ni en el botón
-        if (
-          isOpen &&
-          !navbarCollapse.contains(event.target) &&
-          !toggler.contains(event.target)
-        ) {
-          var bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarCollapse);
-          bsCollapse.hide();
-        }
-      });
-    </script>
-    <!-- Bootstrap JS --> 
+    <!-- Bootstrap JS -->
+    <script src="js/scripts.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-  </body>
-</html>
