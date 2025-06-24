@@ -76,7 +76,54 @@
       </div>
     </section>
     <!-- Main Content -->
-     
+     <!-- Generador de contraseñas en JavaScript -->
+<div class="container my-5">
+  <h3>Generador de contraseñas (JavaScript)</h3>
+  <form id="passwordForm" class="row g-2 align-items-end">
+    <div class="col-auto">
+      <label for="numLetters" class="form-label mb-0">Letras:</label>
+      <input type="number" id="numLetters" class="form-control" value="4" min="0" max="20">
+    </div>
+    <div class="col-auto">
+      <label for="numSymbols" class="form-label mb-0">Símbolos:</label>
+      <input type="number" id="numSymbols" class="form-control" value="2" min="0" max="10">
+    </div>
+    <div class="col-auto">
+      <label for="numNumbers" class="form-label mb-0">Números:</label>
+      <input type="number" id="numNumbers" class="form-control" value="2" min="0" max="10">
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-warning">Generar</button>
+    </div>
+  </form>
+  <div class="mt-3">
+    <label class="form-label">Contraseña generada:</label>
+    <input type="text" id="passwordResult" class="form-control" readonly>
+  </div>
+</div>
+<script>
+// Generador de contraseñas JS
+const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const numbers = '0123456789'.split('');
+const symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+'];
+
+document.getElementById('passwordForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const nL = parseInt(document.getElementById('numLetters').value) || 0;
+  const nS = parseInt(document.getElementById('numSymbols').value) || 0;
+  const nN = parseInt(document.getElementById('numNumbers').value) || 0;
+  let passwordList = [];
+  for (let i = 0; i < nL; i++) passwordList.push(letters[Math.floor(Math.random()*letters.length)]);
+  for (let i = 0; i < nS; i++) passwordList.push(symbols[Math.floor(Math.random()*symbols.length)]);
+  for (let i = 0; i < nN; i++) passwordList.push(numbers[Math.floor(Math.random()*numbers.length)]);
+  // Mezclar
+  for (let i = passwordList.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [passwordList[i], passwordList[j]] = [passwordList[j], passwordList[i]];
+  }
+  document.getElementById('passwordResult').value = passwordList.join('');
+});
+</script>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-5">
