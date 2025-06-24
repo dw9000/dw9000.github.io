@@ -1,29 +1,89 @@
-/* General Styles */
+/* Estilo elegante para el icono de dark mode */
+#darkModeToggle i,
+#darkModeToggleMobile i {
+  transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
+  color: #ffc107;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  font-size: 1rem;
+  filter: drop-shadow(0 0 4px #ffc10788);
+}
 
+#darkModeToggle:hover i,
+#darkModeToggleMobile:hover i {
+  color: #fffbe7;
+  text-shadow: 0 0 12px #ffc107, 0 0 4px #fffbe7;
+  transform: scale(1.15) rotate(-10deg);
+  filter: drop-shadow(0 0 8px #ffc107cc);
+}
+
+body.dark-mode #darkModeToggle i,
+body.dark-mode #darkModeToggleMobile i {
+  color: #fffbe7;
+  text-shadow: 0 0 8px #ffc107cc;
+  filter: drop-shadow(0 0 8px #fffbe7cc);
+}
+
+/* General Styles */
 body, h1, h2, h3, h4, h5, h6, .navbar, .nav-link, .navbar-brand {
-  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
   font-weight: 800;
   line-height: 1.2;
 }
 
-/* Imagen de fondo solo para el navbar de escritorio */
+.container-fluid h1.text-black {
+  color: #111 !important;
+}
+/* Hover elegante para enlaces del navbar (escritorio y móvil) */
+.navbar-nav .nav-link {
+  position: relative;
+  transition: color 0.2s;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: #ffc107 !important;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  width: 0;
+  height: 2px;
+  background: #ffc107;
+  transition: width 0.3s cubic-bezier(.4,2,.6,1);
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link:focus::after {
+  width: 60%;
+}
+
+/* Opcional: para el menú móvil, que el subrayado sea más ancho */
+@media (max-width: 767.98px) {
+  .navbar-nav .nav-link::after {
+    height: 3px;
+  }
+  .navbar-nav .nav-link:hover::after,
+  .navbar-nav .nav-link:focus::after {
+    width: 80%;
+  }
+}
+
+/* Hero/Background for desktop navbar (if still used) */
 @media (min-width: 768px) {
   .navbar-bg-img {
     background-image: url('../img/home-bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 66vh;
-    min-height: 500px;
-    max-height: 600px;
-    position: relative;
-    background-color: transparent !important;
-    height: 100vh;
     min-height: 400px;
     max-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    background-color: transparent !important;
   }
   .navbar-hero-text {
     position: absolute;
@@ -44,6 +104,7 @@ body, h1, h2, h3, h4, h5, h6, .navbar, .nav-link, .navbar-brand {
   }
 }
 
+/* Bootstrap already handles most backgrounds and borders, so only override if needed */
 .navbar,
 footer,
 .bg-body-tertiary,
@@ -56,153 +117,13 @@ footer,
   border-color: #333 !important;
 }
 
-/* Letras negras en navbar en modo claro */
+/* Navbar text color in light mode */
 .navbar .nav-link,
 .navbar .navbar-brand {
   color: #111 !important;
 }
 
-/* SOLO en modo oscuro: letras blancas */
-body.dark-mode .navbar,
-body.dark-mode footer a,
-body.dark-mode .card-title,
-body.dark-mode .card-text,
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6 {
-  color: #f1f1f1 !important;
-}
-
-.post-preview > a {
-  color: #212529;
-}
-.post-preview > a:focus, .post-preview > a:hover {
-  text-decoration: none;
-  color: #0085A1;
-}
-.post-preview > a > .post-title {
-  font-size: 1.875rem;
-  margin-top: 1.875rem;
-  margin-bottom: 0.625rem;
-}
-.post-preview > a > .post-subtitle {
-  font-weight: 300;
-  margin-bottom: 0.625rem;
-}
-.post-preview > .post-meta {
-  font-size: 1.125rem;
-  font-style: italic;
-  margin-top: 0;
-  color: #6c757d;
-}
-.post-preview > .post-meta > a {
-  text-decoration: none;
-}
-@media (min-width: 992px) {
-  .post-preview > a > .post-title {
-    font-size: 2.25rem;
-  }
-}
-
-.btn-primary,
-.btn-outline-warning {
-  background-color: #333 !important;
-  color: #ffc107 !important;
-  border-color: #ffc107 !important;
-}
-
-.btn-primary:hover,
-.btn-outline-warning:hover {
-  background-color: #ffc107 !important;
-  color: #222 !important;
-  border-color: #ffc107 !important;
-}
-
-input, textarea, select {
-  background: #222 !important;
-  color: #f1f1f1 !important;
-  border-color: #444 !important;
-}
-
-.carousel-item img {
-  filter: brightness(0.85) contrast(1.1);
-}
-
-/* Navbar Styles */
-@media (max-width: 767.98px) {
-  .custom-toggler {
-    position: fixed !important;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1051;
-    border-radius: 50%;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
-    background: rgba(30, 30, 40, 0.85);
-    padding: 8px;
-    border: 2px solid #222;
-    transition: background 0.3s, box-shadow 0.3s;
-  }
-  .custom-toggler:hover {
-    background: rgba(60, 60, 80, 0.95);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-  }
-  .custom-toggler .navbar-toggler-icon {
-    filter: invert(1) brightness(2);
-    width: 2.2rem;
-    height: 2.2rem;
-  }
-  .navbar-collapse {
-    position: fixed !important;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: auto;
-    background: rgba(20, 20, 30, 0.98);
-    border-radius: 20px 20px 0 0;
-    box-shadow: 0 -4px 24px rgba(0,0,0,0.45);
-    padding: 2rem 1rem 1.5rem 1rem;
-    min-height: 40vh;
-    max-height: 80vh;
-    overflow-y: auto;
-    z-index: 3000 !important;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(.4,2,.6,1), opacity 0.3s;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-  .navbar-collapse.show {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-  .navbar-nav .nav-link {
-    color: #fff !important;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  .navbar-nav .nav-link.active {
-    color: #ffc107 !important;
-  }
-  nav.navbar {
-    display: none !important;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .carousel-item img {
-    height: 180px;
-    object-fit: cover;
-    width: 100%;
-  }
-}
-
-/* Dark Mode Styles */
+/* Dark mode overrides */
 body.dark-mode {
   background: #181a1b !important;
   color: #f1f1f1 !important;
@@ -212,12 +133,14 @@ body.dark-mode footer,
 body.dark-mode .bg-body-tertiary,
 body.dark-mode .container.bg-dark,
 body.dark-mode .card,
-body.dark-mode .card-body,
-body.dark-mode .carousel,
-body.dark-mode .carousel-inner {
+body.dark-mode .card-body {
   background-color: #222 !important;
   color: #f1f1f1 !important;
   border-color: #333 !important;
+}
+body.dark-mode .navbar .nav-link,
+body.dark-mode .navbar .navbar-brand {
+  color: #ffc107 !important;
 }
 
 body.dark-mode footer a,
@@ -250,6 +173,154 @@ body.dark-mode select {
   color: #f1f1f1 !important;
   border-color: #444 !important;
 }
-body.dark-mode .carousel-item img {
-  filter: brightness(0.85) contrast(1.1);
+
+/* Post preview styles (keep for blog look) */
+.post-preview > a {
+  color: #212529;
+}
+.post-preview > a:focus, .post-preview > a:hover {
+  text-decoration: none;
+  color: #0085A1;
+}
+.post-preview > a > .post-title {
+  font-size: 1.875rem;
+  margin-top: 1.875rem;
+  margin-bottom: 0.625rem;
+}
+.post-preview > a > .post-subtitle {
+  font-weight: 300;
+  margin-bottom: 0.625rem;
+}
+.post-preview > .post-meta {
+  font-size: 1.125rem;
+  font-style: italic;
+  margin-top: 0;
+  color: #6c757d;
+}
+.post-preview > .post-meta > a {
+  text-decoration: none;
+}
+@media (min-width: 992px) {
+  .post-preview > a > .post-title {
+    font-size: 2.25rem;
+  }
+}
+
+/* Button colors (override Bootstrap if you want custom palette) */
+.btn-primary,
+.btn-outline-warning {
+  background-color: #333 !important;
+  color: #ffc107 !important;
+  border-color: #ffc107 !important;
+}
+.btn-primary:hover,
+.btn-outline-warning:hover {
+  background-color: #ffc107 !important;
+  color: #222 !important;
+  border-color: #ffc107 !important;
+}
+
+/* Form fields */
+input, textarea, select {
+  background: #222 !important;
+  color: #f1f1f1 !important;
+  border-color: #444 !important;
+}
+
+/* Mobile navbar toggler and collapse (if you use custom toggler, else remove) */
+@media (max-width: 767.98px) {
+  .custom-toggler {
+  position: fixed !important;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1051;
+  border-radius: 50%;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+  background: rgba(30, 30, 40, 0.92);
+  padding: 12px;
+  border: 2px solid #ffc107;
+  transition: background 0.3s, box-shadow 0.3s, border-color 0.3s, transform 0.2s;
+  backdrop-filter: blur(2px);
+  }
+
+  .custom-toggler:hover, .custom-toggler:focus {
+    background: rgba(60, 60, 80, 0.98);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    border-color: #fffbe7;
+    transform: scale(1.08) rotate(-6deg);
+  }
+
+  .custom-toggler .navbar-toggler-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: none;
+  }
+
+  .custom-toggler i.bi-list {
+    color: #ffc107;
+    font-size: 2.2rem;
+    text-shadow: 0 2px 8px #2228, 0 0 8px #ffc10788;
+    transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
+  }
+
+  .custom-toggler:hover i.bi-list,
+  .custom-toggler:focus i.bi-list {
+    color: #fffbe7;
+    text-shadow: 0 0 12px #ffc107, 0 0 4px #fffbe7;
+    transform: scale(1.15) rotate(-10deg);
+  }
+
+  /* Opcional: oculta el borde azul de enfoque en móviles */
+  .custom-toggler:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #ffc10788;
+  }
+  .navbar-collapse {
+    position: fixed !important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    background: rgba(17, 17, 22, 0.95);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 -4px 24px rgba(0,0,0,0.45);
+    padding: 2rem 1rem 1.5rem 1rem;
+    min-height: 40vh;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 3000 !important;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(.4,2,.6,1), opacity 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+  .navbar-collapse.show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .navbar-nav .nav-link {
+    color: #fff !important;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .navbar-nav .nav-link.active {
+    color: #ffc107 !important;
+  }
+  nav.navbar {
+    display: none !important;
+  }
+
+  
+  
 }

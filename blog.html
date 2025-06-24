@@ -1,95 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Data DataExplora</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" href="css/styles.css">
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offcanvas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    
-
-    <style>
-        @media (max-width: 767.98px) {
-          .custom-toggler {
-            position: fixed !important;
-            bottom: 24px;
-            right: 24px;
-            z-index: 1051;
-            border-radius: 50%;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.35);
-            background: rgba(30, 30, 40, 0.85);
-            padding: 8px;
-            border: 2px solid #222;
-            transition: background 0.3s, box-shadow 0.3s;
-          }
-          .custom-toggler:hover {
-            background: rgba(60, 60, 80, 0.95);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-          }
-          .custom-toggler .navbar-toggler-icon {
-            filter: invert(1) brightness(2);
-            width: 2.2rem;
-            height: 2.2rem;
-          }
-          .navbar-collapse {
-          position: fixed !important;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          top: auto;
-          background: rgba(20, 20, 30, 0.98);
-          border-radius: 20px 20px 0 0;
-          box-shadow: 0 -4px 24px rgba(0,0,0,0.45);
-          padding: 2rem 1rem 1.5rem 1rem;
-          min-height: 40vh;
-          max-height: 80vh;
-          overflow-y: auto;
-          z-index: 3000 !important;
-          /* Efecto slide */
-          transform: translateY(100%);
-          transition: transform 0.4s cubic-bezier(.4,2,.6,1), opacity 0.3s;
-          opacity: 0;
-          visibility: hidden;
-          pointer-events: none;
-          }
-                .navbar-collapse.show {
-          transform: translateY(0);
-          opacity: 1;
-          visibility: visible;
-          pointer-events: auto;
-          }
-        
-          .navbar-nav .nav-link {
-            color: #fff !important;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-          }
-          .navbar-nav .nav-link.active {
-            color: #ffc107 !important;
-          }
-          nav.navbar {
-            display: none !important;
-          }
-        }
-
-        @media (max-width: 767.98px) {
-          .carousel-item img {
-            height: 180px;      /* Ajusta la altura a tu gusto */
-            object-fit: cover;  /* Recorta la imagen para que no se deforme */
-            width: 100%;
-          }
-        }
-    </style>
+  <body>
     <!-- Botón hamburguesa SOLO visible en móviles -->
-    <button class="navbar-toggler custom-toggler d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">    
-      <span class="navbar-toggler-icon"><i class="bi bi-list" style="font-size: 2rem; color: rgb(44, 30, 14);"></i></span>
+    <button class="navbar-toggler custom-toggler d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMobile" aria-controls="navbarNavMobile" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"><i class="bi bi-list" style="font-size: 2rem;"></i></span>
     </button>
 
     <!-- Menú colapsable SOLO visible en móviles -->
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse" id="navbarNavMobile">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="index.html">Home</a>
@@ -104,24 +33,18 @@
           <a class="nav-link" href="blog.html">Blog</a>
         </li>
         <li class="nav-item text-center">
-        <button id="darkModeToggleMobile" class="btn btn-outline-light my-2" title="Modo oscuro/claro">
-          <i class="bi bi-moon"></i>
-        </button>
+          <button id="darkModeToggleMobile" class="btn btn-outline-light my-2 rounded-5" title="Modo oscuro/claro">
+            <i class="bi bi-moon"></i>
+          </button>
         </li>
       </ul>
     </div>
 
     <!-- Navbar SOLO visible en escritorio/tablet -->
-    <nav class="navbar navbar-expand-sm bg-body-tertiary d-none d-md-block navbar-bg-img">
+    <nav class="navbar navbar-expand-md bg-body-tertiary fixed-top">
       <div class="container-fluid">
-        <div class="navbar-hero-text d-flex justify-content-center align-items-center">
-          <div class="navbar-hero-blur px-4 py-3 rounded-4">
-            <h1 class="display-4 mb-2 text-center">¡Bienvenido a DataExplora!</h1>
-            <p class="lead text-center mb-0">Explora datos, aprende y comparte conocimiento.</p>
-          </div>
-        </div>
-        <a class="navbar-brand" href="#">Demo <i class="bi bi-pie-chart-fill" style="font-size: 2rem; color: rgb(15, 15, 14);"></i></a>
-        <div class="collapse navbar-collapse show">
+        <a class="navbar-brand" href="#">Demo <i class="bi bi-pie-chart-fill" style="font-size: 3rem;"></i></a>
+        <div class="collapse navbar-collapse show color-">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="index.html">Home</a>
@@ -133,173 +56,42 @@
               <a class="nav-link" href="post.html">Post</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="blog.html">Blog</a>
+              <a class="nav-link" href="blog.html">Blog</a>
             </li>
-            <li class="nav-item">
-            <button id="darkModeToggle" class="btn btn-outline-light ms-2" title="Modo oscuro/claro">
-              <i class="bi bi-moon"></i>
-            </button>
+            <li class="nav-item d-flex align-items-center">
+              <button id="darkModeToggle" class="btn btn-outline-secondary ms-2 rounded-5" title="Modo oscuro/claro">
+                <i class="bi bi-moon"></i>
+              </button>
             </li>
           </ul>
-        
-      </div>
-    </nav>
-</head>
-
-<<<<<<< HEAD
-<body>
-  <!-- Formulario de login -->
-<div class="container my-4" id="loginBox">
-  <h2>Acceso administrador</h2>
-  <form id="adminLogin">
-    <div class="mb-3">
-      <input type="password" class="form-control" id="adminPass" placeholder="Contraseña" required>
-=======
-    <div class="container">
-    
-        <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-            Link with href
-          </a>
-        
-          <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Sidebar</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-             
-           
-              <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Diez articulos
-                  <span class="badge text-bg-primary rounded-pill">10</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  A second list item
-                  <span class="badge text-bg-primary rounded-pill">2</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  A third list item
-                  <span class="badge text-bg-primary rounded-pill">1</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A list item
-                    <span class="badge text-bg-primary rounded-pill">10</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A second list item
-                    <span class="badge text-bg-primary rounded-pill">2</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A third list item
-                    <span class="badge text-bg-primary rounded-pill">1</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A list item
-                    <span class="badge text-bg-primary rounded-pill">14</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A second list item
-                    <span class="badge text-bg-primary rounded-pill">2</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A third list item
-                    <span class="badge text-bg-primary rounded-pill">1</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A list item
-                    <span class="badge text-bg-primary rounded-pill">14</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A second list item
-                    <span class="badge text-bg-primary rounded-pill">2</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    A third list item
-                    <span class="badge text-bg-primary rounded-pill">1</span>
-                  </li>
-              </ul>
-            </div>
-          </div>
-
->>>>>>> 66468e77f19aa648b047672329e85b4392cf6e09
-    </div>
-    <button type="submit" class="btn btn-primary">Entrar</button>
-  </form>
-</div>
-
-<!-- Formulario para agregar publicaciones (solo admin) -->
-<div class="container my-4" id="adminForm" style="display:none">
-  <h2>Agregar nueva publicación</h2>
-  <form id="blogForm">
-    <div class="mb-3">
-      <input type="text" class="form-control" id="blogTitle" placeholder="Título" required>
-    </div>
-    <div class="mb-3">
-      <textarea class="form-control" id="blogContent" rows="3" placeholder="Contenido" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Publicar</button>
-  </form>
-</div>
-
-<!-- Publicaciones siempre visibles -->
-  <div class="container my-4">
-    <h2>Publicaciones recientes</h2>
-    <div id="blogPosts"></div>
-  </div>
-
-  <script>
-  const ADMIN_PASSWORD = "miclave123"; // Cambia esto por tu clave
-
-  // Login de administrador
-  document.getElementById('adminLogin').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const pass = document.getElementById('adminPass').value;
-    if (pass === ADMIN_PASSWORD) {
-      document.getElementById('loginBox').style.display = 'none';
-      document.getElementById('adminForm').style.display = 'block';
-    } else {
-      alert('Contraseña incorrecta');
-    }
-  });
-
-  // Mostrar publicaciones al cargar
-  document.addEventListener('DOMContentLoaded', showPosts);
-
-  // Guardar nueva publicación
-  document.getElementById('blogForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const title = document.getElementById('blogTitle').value.trim();
-    const content = document.getElementById('blogContent').value.trim();
-    if (!title || !content) return;
-
-    const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-    posts.unshift({ title, content, date: new Date().toLocaleString() });
-    localStorage.setItem('blogPosts', JSON.stringify(posts));
-    showPosts();
-    this.reset();
-  });
-
-  // Mostrar publicaciones
-  function showPosts() {
-    const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-    const container = document.getElementById('blogPosts');
-    if (posts.length === 0) {
-      container.innerHTML = '<p class="text-muted">No hay publicaciones aún.</p>';
-      return;
-    }
-    container.innerHTML = posts.map(post => `
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">${post.title}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">${post.date}</h6>
-          <p class="card-text">${post.content}</p>
         </div>
       </div>
-    `).join('');
-  }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-  </body>
+    </nav>
 
+    <!-- Hero Section (Bootstrap utilities) -->
+    <section class="position-relative" style="background-image: url('../img/home-bg.jpg'); background-size: cover; background-position: center; min-height: 400px; max-height: 600px;">
+      <div class="position-absolute top-50 start-50 translate-middle bg-dark bg-opacity-50 rounded-4 px-4 py-3 text-center w-75">
+        <h1 class="display-4 mb-2 text-white">¡Bienvenido a DataExplora!</h1>
+        <p class="lead text-white mb-0">Explora datos, aprende y comparte conocimiento.</p>
+      </div>
+    </section>
+    <!-- Main Content -->
+     
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+      <p>&copy; 2025 Hernandez. All rights reserved.</p>
+      <p>Follow us on 
+        <a href="#" class="text-white"><i class="bi bi-facebook"></i></a> 
+        <a href="#" class="text-white"><i class="bi bi-twitter"></i></a>
+        <a href="https://t.me/DataExplora" class="text-white"><i class="bi bi-instagram"></i></a>
+        <a href="https://t.me/DataExplora" class="text-white"><i class="bi bi-telegram"></i></a>
+      </p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="js/scripts.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+     
+  </body>
 </html>
