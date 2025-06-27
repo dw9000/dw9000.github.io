@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Productividad con IA</title>
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      color: #e0e1dd;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    h1 {
+      font-size: 2.8em;
+      color: #00d4ff;
+      text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(0, 212, 255, 0.7); }
+      to { text-shadow: 0 0 20px rgba(0, 212, 255, 1); }
+    }
+    .auth, .task-form, .plan, .stats {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background: #415a77;
+      color: #e0e1dd;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    button {
+      background: linear-gradient(90deg, #007bff, #00d4ff);
+      cursor: pointer;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+    }
+    .telegram-login {
+      background: linear-gradient(90deg, #0088cc, #00d4ff);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .telegram-login::before {
+      content: '✈️';
+      font-size: 20px;
+    }
+    .task-list, .timeline {
+      list-style: none;
+      padding: 0;
+    }
+    .task-item, .timeline-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeIn 0.5s ease-in;
+    }
+    .timeline-item.break {
+      background: linear-gradient(90deg, #28a745, #20c997);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    #quote {
+      font-style: italic;
+      color: #00d4ff;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .stats canvas {
+      max-width: 100%;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="YOUR_BOT_NAME" data-size="large" data-onauth="onTelegramAuth(user)"></script>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="auth" id="auth">
+    <h2 id="auth-title">Iniciar Sesión</h2>
+    <input type="text" id="username" placeholder="Nombre de usuario" required>
+    <input type="password" id="password" placeholder="Contraseña" required>
+    <button onclick="handleAuth()">Iniciar Sesión</button>
+    <button onclick="toggleAuthMode()">Cambiar a Registro</button>
+    <button class="telegram-login">Iniciar Sesión con Telegram</button>
+  </div>
+  <div class="task-form" id="task-form" style="display: none;">
+    <h1>Simulador de Productividad con IA</h1>
+    <button onclick="logout()">Cerrar Sesión</button>
+    <h2>Añadir Tarea</h2>
+    <input type="text" id="task-name" placeholder="Nombre de la tarea" required>
+    <select id="task-priority">
+      <option value="3">Alta</option>
+      <option value="2">Media</option>
+      <option value="1">Baja</option>
+    </select>
+    <input type="number" id="task-time" placeholder="Tiempo estimado (min)" min="1" required>
+    <button onclick="addTask()">Añadir Tarea</button>
+    <button onclick="generatePlan()">Generar Plan</button>
+    <button onclick="exportPlan()">Exportar como PDF</button>
+  </div>
+  <div class="plan" id="plan" style="display: none;">
+    <h2>Tareas Ingresadas</h2>
+    <ul id="task-list" class="task-list"></ul>
+    <h2>Plan Diario</h2>
+    <div id="quote"></div>
+    <div id="timeline" class="timeline"></div>
+  </div>
+  <div class="stats" id="stats" style="display: none;">
+    <h2>Estadísticas</h2>
+    <canvas id="priority-chart"></canvas>
+  </div>
+
+  <script>
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#00d4ff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: '#00d4ff', opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: 'none', random: true }
+      },
+      interactivity: { events: { onhover: { enable: true, mode: 'repulse' } } }
+    });
+
+    let currentUser = null;
+    let tasks = [];
+    let chart = null;
+
+    function onTelegramAuth(user) {
+      const telegramId = user.id;
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      if (!users[telegramId]) {
+        users[telegramId] = { type: 'telegram', tasks: [], name: user.first_name };
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+      currentUser = telegramId;
+      tasks = users[telegramId].tasks || [];
+      document.getElementById('auth').style.display = 'none';
+      document.getElementById('task-form').style.display = 'block';
+      document.getElementById('plan').style.display = 'block';
+      document.getElementById('stats').style.display = 'block';
+      displayTasks();
+      updateChart();
+      alert(`Bienvenido, ${user.first_name}!`);
+    }
+
+    function handleAuth() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      const isRegister = document.getElementById('auth-title').innerText === 'Registrarse';
+
+      if (isRegister) {
+        if (users[username]) {
+          alert('El usuario ya existe.');
+          return;
+        }
+        users[username] = { type: 'password', password, tasks: [] };
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('Registro exitoso. Inicia sesión.');
+        toggleAuthMode();
+      } else {
+        if (!users[username] || users[username].type !== 'password' || users[username].password !== password) {
+          alert('Usuario o contraseña incorrectos.');
+          return;
+        }
+        currentUser = username;
+        tasks = users[username].tasks || [];
+        document.getElementById('auth').style.display = 'none';
+        document.getElementById('task-form').style.display = 'block';
+        document.getElementById('plan').style.display = 'block';
+        document.getElementById('stats').style.display = 'block';
+        displayTasks();
+        updateChart();
+      }
+    }
+
+    function toggleAuthMode() {
+      const title = document.getElementById('auth-title');
+      const button = document.querySelector('#auth button:nth-child(2)');
+      if (title.innerText === 'Iniciar Sesión') {
+        title.innerText = 'Registrarse';
+        button.innerText = 'Cambiar a Iniciar Sesión';
+      } else {
+        title.innerText = 'Iniciar Sesión';
+        button.innerText = 'Cambiar a Registro';
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      tasks = [];
+      document.getElementById('auth').style.display = 'block';
+      document.getElementById('task-form').style.display = 'none';
+      document.getElementById('plan').style.display = 'none';
+      document.getElementById('stats').style.display = 'none';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+
+    function addTask() {
+      const name = document.getElementById('task-name').value;
+      const priority = parseInt(document.getElementById('task-priority').value);
+      const time = parseInt(document.getElementById('task-time').value);
+      if (!name || !time) {
+        alert('Por favor, completa todos los campos.');
+        return;
+      }
+      tasks.push({ name, priority, time });
+      saveTasks();
+      document.getElementById('task-name').value = '';
+      document.getElementById('task-time').value = '';
+      displayTasks();
+      updateChart();
+    }
+
+    function saveTasks() {
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      users[currentUser].tasks = tasks;
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    function displayTasks() {
+      const taskList = document.getElementById('task-list');
+      taskList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.className = 'task-item';
+        li.innerHTML = `${task.name} (Prioridad: ${task.priority}, Tiempo: ${task.time} min) 
+          <button onclick="deleteTask(${index})">Eliminar</button>`;
+        taskList.appendChild(li);
+      });
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      saveTasks();
+      displayTasks();
+      updateChart();
+    }
+
+    function generatePlan() {
+      if (tasks.length === 0) {
+        alert('No hay tareas para generar un plan.');
+        return;
+      }
+      const sortedTasks = [...tasks].sort((a, b) => {
+        const scoreA = a.priority * 1000 / a.time;
+        const scoreB = b.priority * 1000 / b.time;
+        return scoreB - scoreA;
+      });
+      const timeline = document.getElementById('timeline');
+      timeline.innerHTML = '';
+      let currentTime = 9 * 60; // 9:00 AM
+      sortedTasks.forEach((task, index) => {
+        const startTime = formatTime(currentTime);
+        currentTime += task.time;
+        const endTime = formatTime(currentTime);
+        const div = document.createElement('div');
+        div.className = 'timeline-item';
+        div.innerText = `${startTime} - ${endTime}: ${task.name} (${task.time} min)`;
+        timeline.appendChild(div);
+        if (index < sortedTasks.length - 1 && task.time >= 60) {
+          const breakDiv = document.createElement('div');
+          breakDiv.className = 'timeline-item break';
+          breakDiv.innerText = `${formatTime(currentTime)} - ${formatTime(currentTime + 15)}: Descanso (15 min)`;
+          timeline.appendChild(breakDiv);
+          currentTime += 15;
+        }
+      });
+      fetchQuote();
+    }
+
+    function formatTime(minutes) {
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    }
+
+    function fetchQuote() {
+      fetch('https://quotes.rest/qod?category=inspire')
+        .then(response => response.json())
+        .then(data => {
+          const quote = data.contents.quotes[0].quote;
+          const author = data.contents.quotes[0].author;
+          document.getElementById('quote').innerText = `"${quote}" — ${author}`;
+        })
+        .catch(error => {
+          document.getElementById('quote').innerText = 'Cita no disponible.';
+        });
+    }
+
+    function updateChart() {
+      const ctx = document.getElementById('priority-chart').getContext('2d');
+      const priorityCounts = { 1: 0, 2: 0, 3: 0 };
+      tasks.forEach(task => priorityCounts[task.priority]++);
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Baja', 'Media', 'Alta'],
+          datasets: [{
+            label: 'Tareas por Prioridad',
+            data: [priorityCounts[1], priorityCounts[2], priorityCounts[3]],
+            backgroundColor: ['#ff6b6b', '#ffd60a', '#00d4ff']
+          }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+      });
+    }
+
+    function exportPlan() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 212, 255);
+      doc.text('Plan Diario', 10, 10);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0, 0, 0);
+      const timeline = document.getElementById('timeline').innerText;
+      const quote = document.getElementById('quote').innerText;
+      doc.text(timeline, 10, 20);
+      doc.text(quote, 10, 100);
+      doc.save('plan_diario.pdf');
+    }
+
+    // Inicializar
+    window.onload = () => {
+      if (currentUser) {
+        document.getElementById('auth').style.display = 'none';
+        document.getElementById('task-form').style.display = 'block';
+        document.getElementById('plan').style.display = 'block';
+        document.getElementById('stats').style.display = 'block';
+        displayTasks();
+        updateChart();
+      }
+    };
+  </script>
+  <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="@K900bot" data-size="large" data-onauth="onTelegramAuth(user)"></script>
+</body>
+</html>
