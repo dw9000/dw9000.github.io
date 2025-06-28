@@ -25,10 +25,9 @@ body.dark-mode #darkModeToggleMobile i {
 }
 
 /* General Styles */
-body, h1, h2, h3, h4, h5, h6, .navbar, .nav-link, .navbar-brand {
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
-  font-weight: 800;
-  line-height: 1.2;
+body, h1, h2, h3, h4, h5, h6, .navbar, .footer, .btn, .card-title {
+  font-family: 'Orbitron', 'Open Sans', Arial, sans-serif !important;
+  letter-spacing: 0.5px;
 }
 
 .container-fluid h1.text-black {
@@ -71,22 +70,47 @@ body, h1, h2, h3, h4, h5, h6, .navbar, .nav-link, .navbar-brand {
   }
 }
 
+.hero-section {
+  min-height: 35rem;
+  max-height: 600px;
+}
+@media (max-width: 767.98px) {
+  .hero-section {
+    min-height: 14rem;
+    max-height: 250px;
+  }
+  .hero-section .px-5 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .hero-section .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+  .hero-section p {
+    font-size: 1rem;
+  }
+}
+
 /* Hero/Background for desktop navbar (if still used) */
-@media (min-width: 768px) {
-  .navbar-bg-img {
-    background-image: url('../img/home-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+/* @media (min-width: 768px) {
+  /* .navbar-bg-img {
+    /* background-image: url('../img/home-bg.jpg'); */
+    /* background-size: cover;
+    background-position: center; */
+    /* background-repeat: no-repeat;
     min-height: 400px;
     max-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: transparent !important;
-  }
-  .navbar-hero-text {
+    background-color: transparent !important; */
+  /* } 
+  /* .navbar-hero-text {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: 2;
@@ -94,8 +118,8 @@ body, h1, h2, h3, h4, h5, h6, .navbar, .nav-link, .navbar-brand {
     justify-content: center;
     align-items: center;
     pointer-events: none;
-  }
-  .navbar-hero-blur {
+  } */
+  /* .navbar-hero-blur {
     background: rgba(30, 30, 40, 0.45);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -103,10 +127,10 @@ body, h1, h2, h3, h4, h5, h6, .navbar, .nav-link, .navbar-brand {
     color: #070707;
     pointer-events: auto;
   }
-}
+} */
 
 /* Bootstrap already handles most backgrounds and borders, so only override if needed */
-.navbar,
+/* .navbar,
 footer,
 .bg-body-tertiary,
 .container.bg-dark,
@@ -116,18 +140,18 @@ footer,
 .carousel-inner {
   color: #0a0a0a !important;
   border-color: #333 !important;
-}
+} */
 
 /* Navbar text color in light mode */
-.navbar .nav-link,
+/* .navbar .nav-link,
 .navbar .navbar-brand {
   color: #111 !important;
-}
+} */
 
 .animate-hero {
   opacity: 0;
   transform: translateY(40px) scale(0.98);
-  animation: heroFadeIn 1.2s cubic-bezier(.4,2,.6,1) 0.2s forwards;
+  animation: heroFadeIn 1.2s cubic-bezier(.4,2,.6,1) 0.99s forwards;
 }
 @keyframes heroFadeIn {
   to {
@@ -347,4 +371,95 @@ input, textarea, select {
 .card:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+
+/* webapps Pasword Generator */
+/* Animación de fade-in */
+/* Animación de fade-in para el generador */
+.animate-fadein {
+  opacity: 0;
+  animation: fadeInUp 0.9s cubic-bezier(.4,2,.6,1) 0.1s forwards;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+
+/* taskwebapp */
+/* Animación de fade-in para tarjetas */
+@keyframes fadeInNote {
+  from { opacity: 0; transform: translateY(24px) scale(0.98);}
+  to { opacity: 1; transform: none;}
+}
+.note-card {
+  animation: fadeInNote 0.6s cubic-bezier(.4,2,.6,1);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.note-card:hover {
+  box-shadow: 0 4px 24px #3b82f655, 0 0 0 2px var(--primary);
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Animación de fade-out */
+.note-card.fade-out {
+  animation: fadeOutNote 0.4s forwards;
+}
+@keyframes fadeOutNote {
+  to { opacity: 0; transform: translateY(24px) scale(0.95);}
+}
+
+/* Botón flotante para agregar nota en móvil */
+@media (max-width: 640px) {
+  #fab-add {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px #3b82f655;
+    background: linear-gradient(135deg, #3b82f6, #10b981);
+    color: #fff;
+    border: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #fab-add:active {
+    background: linear-gradient(135deg, #2563eb, #059669);
+    transform: scale(0.96);
+  }
+}
+
+/* Toast de confirmación */
+#toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: bold;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+  z-index: 999;
+}
+#toast.show {
+  opacity: 1;
+  pointer-events: auto;
 }
