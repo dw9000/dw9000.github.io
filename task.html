@@ -2,422 +2,701 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulador de Productividad con IA</title>
-  <style>
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #0d1b2a, #1b263b);
-      color: #e0e1dd;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no, maximum-scale=1.0">
+    <title>Sistema de Notas Rápidas</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --text-color: #111827;
+            --card-bg: #ffffff;
+            --primary: #3b82f6;
+            --danger: #ef4444;
+            --success: #10b981;
+            --star: #facc15;
+        }
 
-    #particles-js {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
+        [data-theme="dark"] {
+            --bg-color: #1f2937;
+            --text-color: #f3f4f6;
+            --card-bg: #374151;
+        }
 
-    h1 {
-      font-size: 2.8em;
-      color: #00d4ff;
-      text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
-      animation: glow 2s ease-in-out infinite alternate;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
 
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
-      }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-      to {
-        text-shadow: 0 0 20px rgba(0, 212, 255, 1);
-      }
-    }
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    .auth,
-    .task-form,
-    .plan,
-    .stats {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      border-radius: 10px;
-      width: 100%;
-      max-width: 600px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-    }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-    input,
-    select,
-    button {
-      padding: 10px;
-      margin: 5px;
-      border: none;
-      border-radius: 5px;
-      background: #415a77;
-      color: #e0e1dd;
-      font-size: 16px;
-      transition: all 0.3s;
-    }
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
 
-    button {
-      background: linear-gradient(90deg, #007bff, #00d4ff);
-      cursor: pointer;
-    }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
 
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
-    }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
 
-    .telegram-login {
-      background: linear-gradient(90deg, #0088cc, #00d4ff);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        .btn-primary {
+            background-color: var(--primary);
+        }
 
-    .telegram-login::before {
-      content: '✈️';
-      font-size: 20px;
-    }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
 
-    .task-list,
-    .timeline {
-      list-style: none;
-      padding: 0;
-    }
+        .btn-danger {
+            background-color: var(--danger);
+        }
 
-    .task-item,
-    .timeline-item {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      animation: fadeIn 0.5s ease-in;
-    }
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
 
-    .timeline-item.break {
-      background: linear-gradient(90deg, #28a745, #20c997);
-    }
+        .btn-success {
+            background-color: var(--success);
+        }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
+        .btn-success:hover {
+            background-color: #059669;
+        }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .note-card {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeInNote 0.6s cubic-bezier(.4, 2, .6, 1);
+            transition: box-shadow 0.2s, transform 0.2s;
+            position: relative;
+        }
 
-    #quote {
-      font-style: italic;
-      color: #00d4ff;
-      text-align: center;
-      margin-top: 10px;
-    }
+        .note-card:hover {
+            box-shadow: 0 4px 24px #3b82f655, 0 0 0 2px var(--primary);
+            transform: translateY(-4px) scale(1.01);
+        }
 
-    .stats canvas {
-      max-width: 100%;
-    }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        .note-card.fade-out {
+            animation: fadeOutNote 0.4s forwards;
+        }
+
+        @keyframes fadeInNote {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes fadeOutNote {
+            to {
+                opacity: 0;
+                transform: translateY(24px) scale(0.95);
+            }
+        }
+
+        .flex {
+            display: flex;
+            gap: 10px;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        @media (min-width: 640px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        #fab-add {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px #3b82f655;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            color: #fff;
+            border: none;
+            transition:
+                background 0.18s cubic-bezier(.4, 0, .2, 1),
+                transform 0.22s cubic-bezier(.4, 1.8, .6, 1),
+                box-shadow 0.22s cubic-bezier(.4, 1.8, .6, 1),
+                filter 0.18s cubic-bezier(.4, 0, .2, 1);
+            will-change: transform, box-shadow, filter;
+        }
+
+        #fab-add:active {
+            background: linear-gradient(135deg, #2563eb, #059669);
+            transform: scale(0.90) rotate(-8deg);
+            box-shadow: 0 8px 32px #10b98155, 0 2px 8px #3b82f633;
+            filter: brightness(1.08) saturate(1.2);
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-weight: bold;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            z-index: 999;
+        }
+
+        #toast.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #login-box {
+            max-width: 350px;
+            margin: 60px auto 30px auto;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 24px #3b82f655;
+            padding: 32px 24px;
+            text-align: center;
+            animation: fadeInNote 0.7s;
+        }
+
+        #logout-btn {
+            position: absolute;
+            top: 5px;
+            right: 0px;
+            background: #ef4444;
+            z-index: 10;
+            padding: 7px 16px;
+            font-size: 1em;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px #ef444455;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        #logout-btn:hover {
+            background: #dc2626;
+            box-shadow: 0 4px 16px #ef444455;
+        }
+
+        #theme-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 101;
+            background: #e0e1ddcc;
+            color: #3b82f6;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px #3b82f655;
+            border: none;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            opacity: 0.85;
+        }
+
+        #theme-toggle:hover {
+            background: #3b82f6;
+            color: #fff;
+            opacity: 1;
+            box-shadow: 0 4px 16px #3b82f655;
+        }
+
+        @media (max-width: 640px) {
+            #theme-toggle {
+                bottom: 90px;
+                right: 24px;
+            }
+
+            .container {
+                padding: 8px;
+            }
+        }
+
+        /* Favorito */
+        .star-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3em;
+            color: #bbb;
+            transition: color 0.2s;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+
+        .star-btn.fav {
+            color: var(--star);
+            text-shadow: 0 2px 8px #facc1555;
+        }
+
+        /* Recordatorio */
+        .reminder {
+            display: inline-block;
+            background: #facc15;
+            color: #222;
+            font-size: 0.95em;
+            border-radius: 12px;
+            padding: 2px 10px;
+            margin-top: 6px;
+            margin-bottom: 2px;
+        }
+
+        .reminder.past {
+            background: #f87171;
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body>
-  <div id="particles-js"></div>
-  <div class="auth" id="auth">
-    <h2 id="auth-title">Iniciar Sesión</h2>
-    <input type="text" id="username" placeholder="Nombre de usuario" required>
-    <input type="password" id="password" placeholder="Contraseña" required>
-    <button onclick="handleAuth()">Iniciar Sesión</button>
-    <button onclick="toggleAuthMode()">Cambiar a Registro</button>
-    <!-- Widget de Telegram Login -->
-    <div style="margin: 16px 0;">
-      <script async src="https://telegram.org/js/telegram-widget.js?22"
-        data-telegram-login="K900bot"
-        data-size="large"
-        data-radius="10"
-        data-onauth="onTelegramAuth(user)"
-        data-request-access="write">
-      </script>
+    <!-- =======================
+       BLOQUE DE ESTRUCTURA HTML
+       ======================= -->
+
+    <!-- 
+  Botón flotante para agregar nota. SIEMPRE visible en la esquina inferior derecha, 
+  tanto en móvil como en escritorio.-->
+    <button id="fab-add" title="Agregar Nota" aria-label="Agregar Nota"
+        style="position:fixed;bottom:24px;right:24px;z-index:100;border-radius:50%;width:56px;height:56px;font-size:2rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px #3b82f655;background:linear-gradient(135deg,#3b82f6,#10b981);color:#fff;border:none;transition:background 0.2s,transform 0.2s;">
+        +
+    </button>
+    <!-- Toast de mensajes rápidos -->
+    <div id="toast"></div>
+
+    <!-- Descripción corta antes del login -->
+    <div id="intro-desc" style="max-width:350px;margin:40px auto 18px auto;text-align:center;">
+        <h1 style="font-size:2.1em;margin-bottom:8px;">📝 Notas Rápidas</h1>
+        <p style="color:#3b82f6;font-size:1.08em;margin-bottom:0;">
+            Guarda, organiza tus ideas de forma privada y sencilla.
+        </p>
     </div>
-  </div>
-  <div class="task-form" id="task-form" style="display: none;">
-    <h1>Simulador de Productividad con IA</h1>
-    <button onclick="logout()">Cerrar Sesión</button>
-    <h2>Añadir Tarea</h2>
-    <input type="text" id="task-name" placeholder="Nombre de la tarea" required>
-    <select id="task-priority">
-      <option value="3">Alta</option>
-      <option value="2">Media</option>
-      <option value="1">Baja</option>
-    </select>
-    <input type="number" id="task-time" placeholder="Tiempo estimado (min)" min="1" required>
-    <button onclick="addTask()">Añadir Tarea</button>
-    <button onclick="generatePlan()">Generar Plan</button>
-    <button onclick="exportPlan()">Exportar como PDF</button>
-  </div>
-  <div class="plan" id="plan" style="display: none;">
-    <h2>Tareas Ingresadas</h2>
-    <ul id="task-list" class="task-list"></ul>
-    <h2>Plan Diario</h2>
-    <div id="quote"></div>
-    <div id="timeline" class="timeline"></div>
-  </div>
-  <div class="stats" id="stats" style="display: none;">
-    <h2>Estadísticas</h2>
-    <canvas id="priority-chart"></canvas>
-  </div>
 
-  <script>
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: '#00d4ff' },
-        shape: { type: 'circle' },
-        opacity: { value: 0.5, random: true },
-        size: { value: 3, random: true },
-        line_linked: { enable: true, distance: 150, color: '#00d4ff', opacity: 0.4, width: 1 },
-        move: { enable: true, speed: 2, direction: 'none', random: true }
-      },
-      interactivity: { events: { onhover: { enable: true, mode: 'repulse' } } }
-    });
+    <!-- Caja de login/registro -->
+    <div id="login-box" style="display:none;">
+        <h2 id="login-title">Iniciar Sesión</h2>
+        <input id="login-user" type="text" placeholder="Usuario" autocomplete="username" required
+            style="margin-bottom:10px; max-width: 100%; box-sizing: border-box;">
+        <input id="login-pass" type="password" placeholder="Contraseña" autocomplete="current-password" required
+            style="margin-bottom:10px; max-width: 100%; box-sizing: border-box;">
+        <button id="login-btn" class="btn-primary" style="width:100%;margin-bottom:10px;">Entrar</button>
+        <button id="toggle-login" class="btn-success" style="width:100%;">¿No tienes cuenta? Regístrate</button>
+    </div>
 
-    let currentUser = null;
-    let tasks = [];
-    let chart = null;
+    <!-- Aplicación principal (notas) -->
+    <div class="container" id="main-app" style="display:none; position:relative;">
+        <!-- Botón para cerrar sesión -->
+        <button id="logout-btn" class="btn-danger">Cerrar Sesión</button>
+        <div class="flex justify-between mb-2" style="flex-direction:column;align-items:center;">
+            <h1 style="margin:40px;">📝 Sistema de Notas Rápidas</h1>
+        </div>
 
-    function onTelegramAuth(user) {
-      const telegramId = user.id;
-      const users = JSON.parse(localStorage.getItem('users') || '{}');
-      if (!users[telegramId]) {
-        users[telegramId] = { type: 'telegram', tasks: [], name: user.first_name };
-        localStorage.setItem('users', JSON.stringify(users));
-      }
-      currentUser = telegramId;
-      tasks = users[telegramId].tasks || [];
-      document.getElementById('auth').style.display = 'none';
-      document.getElementById('task-form').style.display = 'block';
-      document.getElementById('plan').style.display = 'block';
-      document.getElementById('stats').style.display = 'block';
-      displayTasks();
-      updateChart();
-      alert(`Bienvenido, ${user.first_name}!`);
-    }
+        <!-- Buscador y filtro de categoría -->
+        <div class="d-flex justify-content-center align-items-center flex-nowrap">
+            <input id="search" type="text" placeholder="Buscar notas..." style="max-width: 160px; margin-bottom: 10px;">
+            <select id="category-filter" class="form-select form-select-sm" style="max-width: 140px;">
+                <option value="Todas">Todas</option>
+                <option value="Trabajo">Trabajo</option>
+                <option value="Ideas">Ideas</option>
+                <option value="Urgente">Urgente</option>
+            </select>
+        </div>
+        <!-- Formulario para agregar nota -->
+        <form id="note-form" class="grid grid-cols-2 gap-4 mb-4" style="width:100%;">
+            <input id="note-title" type="text" placeholder="Título de la nota" required
+                style="max-width:100%; box-sizing:border-box;">
+            <select id="note-category" style="max-width:100%;">
+                <option value="Trabajo">Trabajo</option>
+                <option value="Ideas">Ideas</option>
+                <option value="Urgente">Urgente</option>
+            </select>
+            <input id="note-reminder" type="datetime-local"
+                style="grid-column:1/3;max-width:100%;box-sizing:border-box;">
+            <textarea id="note-content" placeholder="Contenido de la nota" class="col-span-2"
+                style="max-width:100%; box-sizing:border-box;"></textarea>
+            <button type="submit" class="btn-primary col-span-2" id="note-submit-btn">Agregar Nota</button>
+        </form>
+        <!-- Botón para exportar notas -->
+        <button id="export-notes" class="btn-success mb-4">Exportar Notas</button>
+        <!-- Lista de notas -->
+        <div id="notes-list"></div>
+    </div>
+    <button id="theme-toggle" title="Cambiar tema"
+        style="display:none; position:fixed; bottom:24px; left:24px; z-index:101;">🌙</button>
+    <script>
+        (function () {
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+            let currentUser = localStorage.getItem('currentUser') || null;
+            let notes = [];
+            let theme = localStorage.getItem('theme') || 'light';
+            let editingNoteId = null;
+            let reminderTimeouts = {};
 
-    function handleAuth() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const users = JSON.parse(localStorage.getItem('users') || '{}');
-      const isRegister = document.getElementById('auth-title').innerText === 'Registrarse';
+            function showToast(msg) {
+                const toast = document.getElementById('toast');
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 1800);
+            }
 
-      if (isRegister) {
-        if (users[username]) {
-          alert('El usuario ya existe.');
-          return;
-        }
-        users[username] = { type: 'password', password, tasks: [] };
-        localStorage.setItem('users', JSON.stringify(users));
-        alert('Registro exitoso. Inicia sesión.');
-        toggleAuthMode();
-      } else {
-        if (!users[username] || users[username].type !== 'password' || users[username].password !== password) {
-          alert('Usuario o contraseña incorrectos.');
-          return;
-        }
-        currentUser = username;
-        tasks = users[username].tasks || [];
-        document.getElementById('auth').style.display = 'none';
-        document.getElementById('task-form').style.display = 'block';
-        document.getElementById('plan').style.display = 'block';
-        document.getElementById('stats').style.display = 'block';
-        displayTasks();
-        updateChart();
-      }
-    }
+            function saveUsers() {
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            function saveNotes() {
+                if (currentUser) {
+                    users[currentUser].notes = notes;
+                    saveUsers();
+                }
+            }
 
-    function toggleAuthMode() {
-      const title = document.getElementById('auth-title');
-      const button = document.querySelector('#auth button:nth-child(2)');
-      if (title.innerText === 'Iniciar Sesión') {
-        title.innerText = 'Registrarse';
-        button.innerText = 'Cambiar a Iniciar Sesión';
-      } else {
-        title.innerText = 'Iniciar Sesión';
-        button.innerText = 'Cambiar a Registro';
-      }
-    }
+            function renderNotes(filter = 'Todas', search = '', showOnlyFavs = false) {
+                const notesList = document.getElementById('notes-list');
+                notesList.innerHTML = '';
+                let filteredNotes = notes.filter(note => {
+                    const matchesCategory = filter === 'Todas' || note.category === filter;
+                    const matchesSearch = note.title.toLowerCase().includes(search.toLowerCase()) ||
+                        note.content.toLowerCase().includes(search.toLowerCase());
+                    const matchesFav = !showOnlyFavs || note.fav;
+                    return matchesCategory && matchesSearch && matchesFav;
+                });
 
-    function logout() {
-      currentUser = null;
-      tasks = [];
-      document.getElementById('auth').style.display = 'block';
-      document.getElementById('task-form').style.display = 'none';
-      document.getElementById('plan').style.display = 'none';
-      document.getElementById('stats').style.display = 'none';
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
-    }
+                // Ordenar: primero ancladas, luego favoritas, luego por fecha
+                filteredNotes = filteredNotes.sort((a, b) => {
+                    if (b.pinned - a.pinned !== 0) return b.pinned - a.pinned;
+                    if (b.fav - a.fav !== 0) return b.fav - a.fav;
+                    return b.id - a.id;
+                });
 
-    function addTask() {
-      const name = document.getElementById('task-name').value;
-      const priority = parseInt(document.getElementById('task-priority').value);
-      const time = parseInt(document.getElementById('task-time').value);
-      if (!name || !time) {
-        alert('Por favor, completa todos los campos.');
-        return;
-      }
-      tasks.push({ name, priority, time });
-      saveTasks();
-      document.getElementById('task-name').value = '';
-      document.getElementById('task-time').value = '';
-      displayTasks();
-      updateChart();
-    }
+                filteredNotes.forEach(note => {
+                    const noteCard = document.createElement('div');
+                    noteCard.className = 'note-card';
+                    let reminderHtml = '';
+                    if (note.reminder) {
+                        const now = Date.now();
+                        const reminderTime = new Date(note.reminder).getTime();
+                        const isPast = reminderTime < now;
+                        reminderHtml = `<div class="reminder${isPast ? ' past' : ''}">⏰ ${note.reminder.replace('T', ' ').slice(0, 16)}${isPast ? ' (Vencido)' : ''}</div>`;
+                    }
+                    noteCard.innerHTML = `
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div>
+                                <button class="star-btn${note.fav ? ' fav' : ''}" title="Favorito" onclick="toggleFav(${note.id})">${note.fav ? '★' : '☆'}</button>
+                                <button class="star-btn" title="Anclar" onclick="togglePin(${note.id})" style="font-size:1.1em;color:${note.pinned ? 'var(--primary)' : '#bbb'};">📌</button>
+                            </div>
+                            <div style="font-size:0.9em;color:#888;">${new Date(note.id).toLocaleString()}</div>
+                        </div>
+                        <h3 style="margin-bottom:4px;">${note.title}</h3>
+                        <p>${note.content.replace(/\n/g, '<br>')}</p>
+                        <p class="text-sm text-gray-600" style="margin-bottom:2px;">Categoría: ${note.category}</p>
+                        ${reminderHtml}
+                        <div class="flex">
+                            <button class="btn-primary" onclick="editNote(${note.id})">Editar</button>
+                            <button class="btn-danger" onclick="deleteNote(${note.id})">Eliminar</button>
+                        </div>
+                    `;
+                    notesList.appendChild(noteCard);
+                });
+            }
 
-    function saveTasks() {
-      const users = JSON.parse(localStorage.getItem('users') || '{}');
-      users[currentUser].tasks = tasks;
-      localStorage.setItem('users', JSON.stringify(users));
-    }
+            function showLogin(show = true) {
+                document.getElementById('login-box').style.display = show ? 'block' : 'none';
+                document.getElementById('main-app').style.display = show ? 'none' : 'block';
+                document.getElementById('fab-add').style.display = show ? 'none' : '';
+                document.getElementById('theme-toggle').style.display = show ? 'none' : 'flex';
+                document.getElementById('intro-desc').style.display = show ? 'block' : 'none';
+            }
 
-    function displayTasks() {
-      const taskList = document.getElementById('task-list');
-      taskList.innerHTML = '';
-      tasks.forEach((task, index) => {
-        const li = document.createElement('li');
-        li.className = 'task-item';
-        li.innerHTML = `${task.name} (Prioridad: ${task.priority}, Tiempo: ${task.time} min) 
-          <button onclick="deleteTask(${index})">Eliminar</button>`;
-        taskList.appendChild(li);
-      });
-    }
+            function login(username, password) {
+                if (!users[username] || users[username].password !== password) {
+                    showToast('Usuario o contraseña incorrectos');
+                    return false;
+                }
+                currentUser = username;
+                localStorage.setItem('currentUser', currentUser);
+                notes = users[currentUser].notes || [];
+                showLogin(false);
+                renderNotes();
+                setTheme(theme);
+                showToast('Bienvenido ' + username);
+                setAllReminders();
+                return true;
+            }
+            function register(username, password) {
+                if (users[username]) {
+                    showToast('El usuario ya existe');
+                    return false;
+                }
+                users[username] = { password, notes: [] };
+                saveUsers();
+                showToast('Registro exitoso. Ahora inicia sesión.');
+                return true;
+            }
 
-    function deleteTask(index) {
-      tasks.splice(index, 1);
-      saveTasks();
-      displayTasks();
-      updateChart();
-    }
+            let isRegister = false;
+            document.getElementById('toggle-login').onclick = function () {
+                isRegister = !isRegister;
+                document.getElementById('login-title').textContent = isRegister ? 'Registro' : 'Iniciar Sesión';
+                document.getElementById('login-btn').textContent = isRegister ? 'Registrarse' : 'Entrar';
+                this.textContent = isRegister ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate';
+            };
+            document.getElementById('login-btn').onclick = function () {
+                const user = document.getElementById('login-user').value.trim();
+                const pass = document.getElementById('login-pass').value;
+                if (!user || !pass) {
+                    showToast('Completa usuario y contraseña');
+                    return;
+                }
+                if (isRegister) {
+                    register(user, pass);
+                } else {
+                    login(user, pass);
+                }
+            };
+            document.getElementById('logout-btn').onclick = function () {
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                notes = [];
+                showLogin(true);
+            };
 
-    function generatePlan() {
-      if (tasks.length === 0) {
-        alert('No hay tareas para generar un plan.');
-        return;
-      }
-      const sortedTasks = [...tasks].sort((a, b) => {
-        const scoreA = a.priority * 1000 / a.time;
-        const scoreB = b.priority * 1000 / b.time;
-        return scoreB - scoreA;
-      });
-      const timeline = document.getElementById('timeline');
-      timeline.innerHTML = '';
-      let currentTime = 9 * 60; // 9:00 AM
-      sortedTasks.forEach((task, index) => {
-        const startTime = formatTime(currentTime);
-        currentTime += task.time;
-        const endTime = formatTime(currentTime);
-        const div = document.createElement('div');
-        div.className = 'timeline-item';
-        div.innerText = `${startTime} - ${endTime}: ${task.name} (${task.time} min)`;
-        timeline.appendChild(div);
-        if (index < sortedTasks.length - 1 && task.time >= 60) {
-          const breakDiv = document.createElement('div');
-          breakDiv.className = 'timeline-item break';
-          breakDiv.innerText = `${formatTime(currentTime)} - ${formatTime(currentTime + 15)}: Descanso (15 min)`;
-          timeline.appendChild(breakDiv);
-          currentTime += 15;
-        }
-      });
-      fetchQuote();
-    }
+            // --- Edición de notas ---
+            window.editNote = function (id) {
+                const note = notes.find(n => n.id === id);
+                if (note) {
+                    document.getElementById('note-title').value = note.title;
+                    document.getElementById('note-content').value = note.content;
+                    document.getElementById('note-category').value = note.category;
+                    document.getElementById('note-reminder').value = note.reminder || '';
+                    editingNoteId = id;
+                    document.getElementById('note-submit-btn').textContent = 'Guardar Cambios';
+                    showToast('Editando nota');
+                }
+            };
 
-    function formatTime(minutes) {
-      const hours = Math.floor(minutes / 60);
-      const mins = minutes % 60;
-      return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-    }
+            // --- Favoritos ---
+            window.toggleFav = function (id) {
+                const idx = notes.findIndex(n => n.id === id);
+                if (idx > -1) {
+                    notes[idx].fav = !notes[idx].fav;
+                    saveNotes();
+                    renderNotes(document.getElementById('category-filter').value, document.getElementById('search').value);
+                }
+            };
 
-    function fetchQuote() {
-      fetch('https://quotes.rest/qod?category=inspire')
-        .then(response => response.json())
-        .then(data => {
-          const quote = data.contents.quotes[0].quote;
-          const author = data.contents.quotes[0].author;
-          document.getElementById('quote').innerText = `"${quote}" — ${author}`;
-        })
-        .catch(error => {
-          document.getElementById('quote').innerText = 'Cita no disponible.';
-        });
-    }
+            // --- Anclar nota ---
+            window.togglePin = function (id) {
+                const idx = notes.findIndex(n => n.id === id);
+                if (idx > -1) {
+                    notes[idx].pinned = !notes[idx].pinned;
+                    saveNotes();
+                    renderNotes(document.getElementById('category-filter').value, document.getElementById('search').value);
+                }
+            };
 
-    function updateChart() {
-      const ctx = document.getElementById('priority-chart').getContext('2d');
-      const priorityCounts = { 1: 0, 2: 0, 3: 0 };
-      tasks.forEach(task => priorityCounts[task.priority]++);
-      if (chart) chart.destroy();
-      chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Baja', 'Media', 'Alta'],
-          datasets: [{
-            label: 'Tareas por Prioridad',
-            data: [priorityCounts[1], priorityCounts[2], priorityCounts[3]],
-            backgroundColor: ['#ff6b6b', '#ffd60a', '#00d4ff']
-          }]
-        },
-        options: { scales: { y: { beginAtZero: true } } }
-      });
-    }
+            // --- Eliminar nota ---
+            window.deleteNote = function (id) {
+                const notesList = document.getElementById('notes-list');
+                const noteCards = Array.from(notesList.getElementsByClassName('note-card'));
+                const idx = notes.findIndex(note => note.id === id);
+                if (idx > -1) {
+                    noteCards[idx].classList.add('fade-out');
+                    setTimeout(() => {
+                        notes = notes.filter(note => note.id !== id);
+                        saveNotes();
+                        renderNotes(document.getElementById('category-filter').value, document.getElementById('search').value);
+                        showToast('Nota eliminada');
+                    }, 400);
+                }
+            };
 
-    function exportPlan() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(0, 212, 255);
-      doc.text('Plan Diario', 10, 10);
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(0, 0, 0);
-      const timeline = document.getElementById('timeline').innerText;
-      const quote = document.getElementById('quote').innerText;
-      doc.text(timeline, 10, 20);
-      doc.text(quote, 10, 100);
-      doc.save('plan_diario.pdf');
-    }
+            // --- Agregar/Editar nota ---
+            document.getElementById('note-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const title = document.getElementById('note-title').value;
+                const content = document.getElementById('note-content').value;
+                const category = document.getElementById('note-category').value;
+                const reminder = document.getElementById('note-reminder').value;
 
-    // Inicializar
-    window.onload = () => {
-      if (currentUser) {
-        document.getElementById('auth').style.display = 'none';
-        document.getElementById('task-form').style.display = 'block';
-        document.getElementById('plan').style.display = 'block';
-        document.getElementById('stats').style.display = 'block';
-        displayTasks();
-        updateChart();
-      }
-    };
-  </script>
+                if (editingNoteId) {
+                    const idx = notes.findIndex(n => n.id === editingNoteId);
+                    if (idx > -1) {
+                        notes[idx].title = title;
+                        notes[idx].content = content;
+                        notes[idx].category = category;
+                        notes[idx].reminder = reminder;
+                        editingNoteId = null;
+                        document.getElementById('note-submit-btn').textContent = 'Agregar Nota';
+                        showToast('Nota actualizada');
+                    }
+                } else {
+                    const id = Date.now();
+                    notes.push({ id, title, content, category, fav: false, pinned: false, reminder });
+                    showToast('¡Nota agregada!');
+                }
+                saveNotes();
+                renderNotes(document.getElementById('category-filter').value, document.getElementById('search').value);
+                e.target.reset();
+                setAllReminders();
+            });
+
+            // --- Filtros y búsqueda ---
+            document.getElementById('category-filter').addEventListener('change', (e) => {
+                renderNotes(e.target.value, document.getElementById('search').value);
+            });
+            document.getElementById('search').addEventListener('input', (e) => {
+                renderNotes(document.getElementById('category-filter').value, e.target.value);
+            });
+
+            // --- Exportar notas a archivo JSON ---
+            document.getElementById('export-notes').addEventListener('click', () => {
+                const dataStr = JSON.stringify(notes, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'notas.json';
+                link.click();
+                URL.revokeObjectURL(url);
+                showToast('Notas exportadas');
+            });
+
+            // --- Cambiar tema claro/oscuro ---
+            function setTheme(t) {
+                theme = t;
+                localStorage.setItem('theme', theme);
+                document.documentElement.setAttribute('data-theme', theme);
+                document.getElementById('theme-toggle').innerHTML = theme === 'dark' ? '☀️' : '🌙';
+                renderNotes(document.getElementById('category-filter').value, document.getElementById('search').value);
+            }
+            document.getElementById('theme-toggle').addEventListener('click', () => {
+                setTheme(theme === 'dark' ? 'light' : 'dark');
+            });
+
+            // --- Mostrar FAB solo en móvil y usuario logueado ---
+            const fab = document.getElementById('fab-add');
+            function showFabIfMobile() {
+                if (window.innerWidth <= 640 && currentUser) {
+                    fab.style.display = 'flex';
+                } else {
+                    fab.style.display = 'none';
+                }
+            }
+            showFabIfMobile();
+            window.addEventListener('resize', showFabIfMobile);
+            fab.addEventListener('click', () => {
+                document.getElementById('note-title').focus();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // --- Recordatorios ---
+            function setAllReminders() {
+                // Limpiar timeouts previos
+                for (const key in reminderTimeouts) {
+                    clearTimeout(reminderTimeouts[key]);
+                }
+                reminderTimeouts = {};
+                notes.forEach(note => {
+                    if (note.reminder && note.reminder !== '') {
+                        const reminderTime = new Date(note.reminder).getTime();
+                        const now = Date.now();
+                        if (reminderTime > now) {
+                            const ms = reminderTime - now;
+                            reminderTimeouts[note.id] = setTimeout(() => {
+                                showToast(`⏰ Recordatorio: "${note.title}"`);
+                                // Opcional: notificación del navegador
+                                if (window.Notification && Notification.permission === "granted") {
+                                    new Notification("Recordatorio de Nota", { body: note.title });
+                                }
+                                renderNotes(document.getElementById('category-filter').value, document.getElementById('search').value);
+                            }, ms);
+                        }
+                    }
+                });
+            }
+            // Solicitar permiso de notificaciones si es posible
+            if (window.Notification && Notification.permission !== "granted") {
+                Notification.requestPermission();
+            }
+
+            // --- Inicialización al cargar la página ---
+            if (currentUser && users[currentUser]) {
+                notes = users[currentUser].notes || [];
+                showLogin(false);
+                renderNotes();
+                setTheme(theme);
+                setAllReminders();
+            } else {
+                showLogin(true);
+            }
+        })();
+    </script>
 </body>
+
 </html>
