@@ -95,59 +95,6 @@ body, h1, h2, h3, h4, h5, h6, .navbar, .footer, .btn, .card-title {
   }
 }
 
-/* Hero/Background for desktop navbar (if still used) */
-/* @media (min-width: 768px) {
-  /* .navbar-bg-img {
-    /* background-image: url('../img/home-bg.jpg'); */
-    /* background-size: cover;
-    background-position: center; */
-    /* background-repeat: no-repeat;
-    min-height: 400px;
-    max-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background-color: transparent !important; */
-  /* } 
-  /* .navbar-hero-text {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-  } */
-  /* .navbar-hero-blur {
-    background: rgba(30, 30, 40, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    color: #070707;
-    pointer-events: auto;
-  }
-} */
-
-/* Bootstrap already handles most backgrounds and borders, so only override if needed */
-/* .navbar,
-footer,
-.bg-body-tertiary,
-.container.bg-dark,
-.card,
-.card-body,
-.carousel,
-.carousel-inner {
-  color: #0a0a0a !important;
-  border-color: #333 !important;
-} */
-
-/* Navbar text color in light mode */
-/* .navbar .nav-link,
-.navbar .navbar-brand {
-  color: #111 !important;
-} */
-
 .animate-hero {
   opacity: 0;
   transform: translateY(40px) scale(0.98);

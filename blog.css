@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header{
+    width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0f172a, #1e293b, #1e40af, #1d4ed8);
+      background-attachment: fixed; /* Efecto suave al hacer scroll (si lo permites después) */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e2e8f0;
+    width: 100%;
+    height: 800px;
+}
+
+.head {
+    padding-bottom: 20rem;
+    font-size: 3rem;
+    font-family: cursive;
+}
+
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
