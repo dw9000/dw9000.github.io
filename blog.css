@@ -11,7 +11,7 @@ header{
 
   margin: 0;
   padding: 2rem;
-  min-height: 100vh;
+  min-height: 80vh;
   background: 
     /* Capa 1: Cónico dinámico - rotará en hover */
     conic-gradient(from 45deg at 50% 50%, 
