@@ -139,6 +139,8 @@ header{
     font-family: cursive;
     text-align: center;
     padding-top: 6rem; 
+    color: #ffffff;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5); /* Sombra neón para vibe tech */
 }
 
 .content {
@@ -150,7 +152,6 @@ header{
     color: #333;
 }
 
-h1, p {
-  color: #ffffff;
-  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5); /* Sombra neón para vibe tech */
-}
+/* h1, p {
+  
+} */
